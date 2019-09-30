@@ -1,0 +1,13 @@
+body {
+    background-color: rgb(135, 187, 179)
+}
+
+.col-3 {
+    padding-bottom: 20%;
+    background-color: white;
+}
+
+.col-12 {
+    padding-bottom: 20%;
+    background-color: white;
+}
