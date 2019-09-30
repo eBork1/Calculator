@@ -18,7 +18,8 @@ function layout() {
     outputBox.setAttribute('class', 'row justify-content-center');
     
     var outputCol = document.createElement('div');
-    outputCol.setAttribute('class', 'col-12 border text-right');
+    outputCol.setAttribute('class', 'col-12 border text-right display-4 pb-0');
+    outputCol.innerHTML = "0";
     outputBox.appendChild(outputCol);
     mainDiv.appendChild(outputBox);
     
