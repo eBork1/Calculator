@@ -37,8 +37,7 @@ function layout() {
         col.id = j;
         col.innerHTML = `${keys[j]}`;
         col.addEventListener('click', calcInput);
-        console.log(col);
-        console.log("id = " + j);
+        console.log(col, "id: " + j);
 
         row.appendChild(col);
     }
