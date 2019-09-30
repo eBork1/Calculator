@@ -1,6 +1,10 @@
 document.body.onload = layout;
 var numString = "0"
-// create layout for calculator
+var inputString = "";
+var keys = ['C', '', '', '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', '3', '+', '0', '', '.', '='];
+
+
+/* create layout for calculator */
 function layout() {
 
     //title
@@ -18,32 +22,33 @@ function layout() {
     outputBox.setAttribute('class', 'row justify-content-center');
     var outputCol = document.createElement('div');
     outputCol.setAttribute('class', 'col-12 border text-right display-4 pb-0');
-    outputCol.innerHTML = numString;
+    outputCol.innerHTML = numString + inputString;
     outputBox.appendChild(outputCol);
     mainDiv.appendChild(outputBox);
-    
+
     //rows for buttons
-    for (var i = 0; i < 5; i++) {
-        var row = document.createElement('div');
-        row.setAttribute('class', 'row justify-content-center');
+    var row = document.createElement('div');
+    row.setAttribute('class', 'row justify-content-center');
 
-        //loop again to make each column
-        for (var j = 0; j < 4; j++) {
-            var col = document.createElement('div');
-            col.setAttribute('class', 'col-3 border text-center');
-            col.id = i + "-" + j;
-            col.addEventListener('click', buttonAction);
+    //loop again to make each column
+    for (var j = 0; j < 20; j++) {
+        var col = document.createElement('div');
+        col.setAttribute('class', 'col-3 border text-center');
+        col.id = j;
+        col.innerHTML = `${keys[j]}`;
+        col.addEventListener('click', calcInput);
+        console.log(col);
+        console.log("id = " + j);
 
-            console.log(col);
-
-            row.appendChild(col);
-        }
-        container.appendChild(row);
+        row.appendChild(col);
     }
+    container.appendChild(row);
     mainDiv.appendChild(container);
-} // end layout
+}
+/* END LAYOUT() */
 
-function buttonAction() {
+function calcInput() {
     console.log("click worked");
-
+    
+    
 }
