@@ -1,14 +1,20 @@
 body {
-    background-color: rgb(135, 187, 179)
+    background-color: rgb(70, 70, 70);
+    color: rgb(180, 180, 180);
+}
+
+h2 {
+    padding: 5%;
 }
 
 .col-3 {
     padding-bottom: 20%;
-    background-color: white;
+    background-color: rgb(40, 40, 40);
 }
 
 .col-12 {
     padding-bottom: 20%;
-    background-color: white;
+    background-color: rgb(40, 40, 40);
+    border-color: rgb(92, 92, 92);
 }
 
