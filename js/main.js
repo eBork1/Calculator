@@ -60,8 +60,11 @@ function handleInput() {
         case '-':
         case '*':
         case '/':
-            // Got an operator: Store the operator and start reading the next number
             opStore = keyClicked;
+            if (inputtingNumber2) {
+                calcResult();
+            }
+            // Got an operator: store the operator and start reading the next number
             inputtingNumber2 = true;
             updateText();
             break;
@@ -91,7 +94,6 @@ function handleInput() {
                     console.log("Attempted to add another decimal to number " + numStore2);
                 }
             }
-
             break;
 
         case 'C':
@@ -114,7 +116,6 @@ function handleInput() {
                 numStore2 += keyClicked;
                 updateText();
             }
-
             break;
     }
 
@@ -126,11 +127,9 @@ function calcResult() {
     /* 
     Edge cases
     - No num1
-    - No op
     - No num2
     - Num1 not a number
     - Num2 not a number
-    - Division by 0? 
     */
 
     num1AsFloat = parseFloat(numStore1);
@@ -151,7 +150,10 @@ function calcResult() {
             result = num1AsFloat / num2AsFloat;
             break;
     }
-
+    numStore1 = result;
+    numStore2 = "";
+    opStore = "";
+    inputtingNumber2 = false;
     console.log("Result: " + result);
     updateText();
 }
@@ -187,6 +189,6 @@ function updateText() {
 }
 
 // Show the specified text
-function showText(textToShow){
+function showText(textToShow) {
     document.getElementById("outputField").innerHTML = textToShow;
 }
