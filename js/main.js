@@ -4,8 +4,8 @@ var keys = ['C', '', '', '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', 
 var opStore = "";
 var numStore1 = "";
 var numStore2 = "";
-var result = "";
-var inputtingNumber2 = false;
+var expectingOperator = false;
+var inputtingNumber2 = false; // Get whether or not the next number input should be number 1 or number 2
 
 /* create layout for calculator */
 function layout() {
@@ -55,16 +55,28 @@ function handleInput() {
     var keyClicked = keys[this.id];
     console.log("Clicked Key: " + keyClicked);
 
+    // get the output into an array
+    // var tmp = result.split(opStore) // opStore != ""
+    // if tmp.length > 2
+    // do equation, replace result with new value
+    // if tmp.length < 2 
+    // allow the addition of this button click to the result
+    // if keyClicked == ".", "=" 
+
     switch (keyClicked) {
         case '+':
         case '-':
         case '*':
         case '/':
-            opStore = keyClicked;
+            // Got an operator: if first operator, store the operator and start reading the next number. Else, calc result
             if (inputtingNumber2) {
                 calcResult();
+                opStore = keyClicked;
+                inputtingNumber2 = true;
             }
+            
             // Got an operator: store the operator and start reading the next number
+            opStore = keyClicked;
             inputtingNumber2 = true;
             updateText();
             break;
@@ -97,7 +109,7 @@ function handleInput() {
             break;
 
         case 'C':
-            // Got the clear command: Clear all state and start inputing the first number
+            // Got the clear command: Clear all state and start inputting the first number
             opStore = "";
             numStore1 = "";
             numStore2 = "";
@@ -108,6 +120,8 @@ function handleInput() {
 
         default:
             // Got a number: Add it to whichever number is being input
+                
+
             if (!inputtingNumber2) {
                 numStore1 += keyClicked;
                 updateText();
@@ -124,13 +138,6 @@ function handleInput() {
 
 /* Calculate the result */
 function calcResult() {
-    /* 
-    Edge cases
-    - No num1
-    - No num2
-    - Num1 not a number
-    - Num2 not a number
-    */
 
     num1AsFloat = parseFloat(numStore1);
     num2AsFloat = parseFloat(numStore2);
@@ -138,23 +145,24 @@ function calcResult() {
     // Evaluate the expression based off the operation
     switch (opStore) {
         case '+':
-            result = num1AsFloat + num2AsFloat;
+            numStore1 = num1AsFloat + num2AsFloat;
             break;
         case '-':
-            result = num1AsFloat - num2AsFloat;
+            numStore1 = num1AsFloat - num2AsFloat;
             break;
         case '*':
-            result = num1AsFloat * num2AsFloat;
+            numStore1 = num1AsFloat * num2AsFloat;
             break;
         case '/':
-            result = num1AsFloat / num2AsFloat;
+            numStore1 = num1AsFloat / num2AsFloat;
             break;
     }
-    numStore1 = result;
+
     numStore2 = "";
     opStore = "";
     inputtingNumber2 = false;
-    console.log("Result: " + result);
+    expectingOperator = true;
+    console.log("Result: " + numStore1);
     updateText();
 }
 
@@ -163,14 +171,7 @@ function updateText() {
     if (numStore1) {
         if (opStore) {
             if (numStore2) {
-                if (result) {
-                    // Result calculated: Display result
-                    showText(result);
-                }
-                else {
-                    // First number, operator, & second number: Display num1, operator, & num2
-                    showText(numStore1 + " " + opStore + " " + numStore2);
-                }
+                showText(numStore1 + " " + opStore + " " + numStore2);
             }
             else {
                 // First number & Operator: Display num1 and operator
