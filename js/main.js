@@ -4,6 +4,7 @@ var keys = ['C', '', '', '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', 
 var opStore = "";
 var numStore1 = "";
 var numStore2 = "";
+var result = 0;
 var expectingOperator = false;
 var inputtingNumber2 = false; // Get whether or not the next number input should be number 1 or number 2
 
@@ -55,24 +56,22 @@ function handleInput() {
     var keyClicked = keys[this.id];
     console.log("Clicked Key: " + keyClicked);
 
-    // get the output into an array
-    // var tmp = result.split(opStore) // opStore != ""
-    // if tmp.length > 2
-    // do equation, replace result with new value
-    // if tmp.length < 2 
-    // allow the addition of this button click to the result
-    // if keyClicked == ".", "=" 
-
     switch (keyClicked) {
         case '+':
         case '-':
         case '*':
         case '/':
-            // Got an operator: if first operator, store the operator and start reading the next number. Else, calc result
-            if (inputtingNumber2) {
+            // Got an operator:
+            if (inputtingNumber2 && numStore2){
+                // We got a second operator and we already have a valid num2, 
+                // so evaluate the expression, use the new operator as the next operator, and prepare to input number 2
                 calcResult();
+                numStore1 = result;
                 opStore = keyClicked;
+                numStore2 = "";
                 inputtingNumber2 = true;
+                updateText();
+                break;
             }
             
             // Got an operator: store the operator and start reading the next number
@@ -82,8 +81,14 @@ function handleInput() {
             break;
 
         case '=':
-            // Got the '=': Calculate the result
+            // Got the '=': Calculate the result, set num1 to the result, and expect an operator
             calcResult();
+            numStore1 = result;
+            opStore = "";
+            numStore2 = "";
+            expectingOperator = true;
+            inputtingNumber2 = false;
+            updateText();
             break;
 
         case '.':
@@ -119,24 +124,32 @@ function handleInput() {
             break;
 
         default:
-            // Got a number: Add it to whichever number is being input
-                
+            // Got a number
+            if (expectingOperator) {
+                // Was expecting an operator, but we got a number, so just reset the calculator
+                numStore1 = keyClicked;
+                expectingOperator = false;
+                inputtingNumber2 = false;
+                updateText();
+                break;
+            }
 
             if (!inputtingNumber2) {
+                // Inputting number 1
                 numStore1 += keyClicked;
-                updateText();
             }
             else {
+                // Inputting number 2
                 numStore2 += keyClicked;
-                updateText();
             }
+            updateText();
             break;
     }
 
     console.log("Current Operation: " + numStore1 + " " + opStore + " " + numStore2);
 }
 
-/* Calculate the result */
+// Calculate the result
 function calcResult() {
 
     num1AsFloat = parseFloat(numStore1);
@@ -145,25 +158,20 @@ function calcResult() {
     // Evaluate the expression based off the operation
     switch (opStore) {
         case '+':
-            numStore1 = num1AsFloat + num2AsFloat;
+            result = num1AsFloat + num2AsFloat;
             break;
         case '-':
-            numStore1 = num1AsFloat - num2AsFloat;
+            result = num1AsFloat - num2AsFloat;
             break;
         case '*':
-            numStore1 = num1AsFloat * num2AsFloat;
+            result = num1AsFloat * num2AsFloat;
             break;
         case '/':
-            numStore1 = num1AsFloat / num2AsFloat;
+            result = num1AsFloat / num2AsFloat;
             break;
     }
 
-    numStore2 = "";
-    opStore = "";
-    inputtingNumber2 = false;
-    expectingOperator = true;
-    console.log("Result: " + numStore1);
-    updateText();
+    console.log("Result: " + result);
 }
 
 // Update the text based off the state of the input
