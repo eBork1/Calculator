@@ -35,7 +35,7 @@ function layout() {
     var row = document.createElement('div');
     row.setAttribute('class', 'row justify-content-center');
 
-    //loop again to make each column
+    //loop to make each column
     for (var j = 0; j < 20; j++) {
         var col = document.createElement('div');
         col.setAttribute('class', 'col-3 border text-center');
@@ -63,8 +63,8 @@ function handleInput() {
         case '/':
             // Got an operator:
             if (inputtingNumber2 && numStore2){
-                // We got a second operator and we already have a valid num2, 
-                // so evaluate the expression, use the new operator as the next operator, and prepare to input number 2
+                // got a second operator and we already have a num2, 
+                // evaluate the expression, use the new operator as the next operator, and prepare to input number 2
                 calcResult();
                 numStore1 = result;
                 opStore = keyClicked;
@@ -74,7 +74,7 @@ function handleInput() {
                 break;
             }
             
-            // Got an operator: store the operator and start reading the next number
+            // Got an operator, store the operator and start reading the next number
             opStore = keyClicked;
             inputtingNumber2 = true;
             updateText();
@@ -86,7 +86,7 @@ function handleInput() {
             numStore1 = result;
             opStore = "";
             numStore2 = "";
-            expectingOperator = true;
+            expectingOperator = false;
             inputtingNumber2 = false;
             updateText();
             break;
